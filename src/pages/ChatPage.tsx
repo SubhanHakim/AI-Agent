@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { playSound } from "../utils/audio";
+import logoNavbar from "../assets/logo_navbar.svg";
 
 // Type definitions for chat history
 interface Message {
@@ -25,11 +26,11 @@ const DEFAULT_SYSTEM_PROMPT = "You are NEXORA. Extraction-oriented AI agent. Col
 // Component for Message with potential Typewriter effect (simplified for Markdown compatibility)
 const MessageContent = ({ content, isLatestAssistant }: { content: string, isLatestAssistant: boolean }) => {
     return (
-        <div className={`prose prose-invert prose-orange max-w-none text-gray-300 ${isLatestAssistant ? 'animate-in fade-in duration-700' : ''}`}>
+        <div className={`prose prose-invert prose-indigo max-w-none text-gray-300 ${isLatestAssistant ? 'animate-in fade-in duration-700' : ''}`}>
             <ReactMarkdown
                 components={{
                     // Style Headers
-                    h1: ({ node, ...props }) => <h1 className="text-2xl font-bold text-white mt-6 mb-4 border-b border-orange-500/30 pb-2" {...props} />,
+                    h1: ({ node, ...props }) => <h1 className="text-2xl font-bold text-white mt-6 mb-4 border-b border-indigo-500/30 pb-2" {...props} />,
                     h2: ({ node, ...props }) => <h2 className="text-xl font-bold text-gray-100 mt-5 mb-3" {...props} />,
                     h3: ({ node, ...props }) => <h3 className="text-lg font-bold text-gray-200 mt-4 mb-2" {...props} />,
 
@@ -37,8 +38,8 @@ const MessageContent = ({ content, isLatestAssistant }: { content: string, isLat
                     p: ({ node, ...props }) => <p className="mb-4 leading-relaxed custom-line-height" {...props} />,
 
                     // Style Lists
-                    ul: ({ node, ...props }) => <ul className="list-disc list-outside ml-5 mb-4 space-y-2 marker:text-orange-500" {...props} />,
-                    ol: ({ node, ...props }) => <ol className="list-decimal list-outside ml-5 mb-4 space-y-2 marker:text-orange-500" {...props} />,
+                    ul: ({ node, ...props }) => <ul className="list-disc list-outside ml-5 mb-4 space-y-2 marker:text-indigo-500" {...props} />,
+                    ol: ({ node, ...props }) => <ol className="list-decimal list-outside ml-5 mb-4 space-y-2 marker:text-indigo-500" {...props} />,
                     li: ({ node, ...props }) => <li className="pl-1" {...props} />,
 
                     // Style Code Blocks
@@ -46,7 +47,7 @@ const MessageContent = ({ content, isLatestAssistant }: { content: string, isLat
                         const match = /language-(\w+)/.exec(className || '')
                         return !inline && match ? (
                             <div className="rounded-md overflow-hidden my-6 border border-white/10 shadow-lg">
-                                <div className="bg-white/5 px-4 py-1.5 text-xs text-orange-400/80 font-mono border-b border-white/5 flex justify-between items-center">
+                                <div className="bg-white/5 px-4 py-1.5 text-xs text-indigo-400/80 font-mono border-b border-white/5 flex justify-between items-center">
                                     <span className="uppercase tracking-wider font-bold">{match[1]}</span>
                                     <span className="text-[10px] text-gray-600">RAW CODE</span>
                                 </div>
@@ -61,7 +62,7 @@ const MessageContent = ({ content, isLatestAssistant }: { content: string, isLat
                                 </SyntaxHighlighter>
                             </div>
                         ) : (
-                            <code className="bg-orange-500/10 border border-orange-500/20 px-1.5 py-0.5 rounded text-orange-200 font-mono text-sm mx-1" {...props}>
+                            <code className="bg-indigo-500/10 border border-indigo-500/20 px-1.5 py-0.5 rounded text-indigo-200 font-mono text-sm mx-1" {...props}>
                                 {children}
                             </code>
                         )
@@ -264,7 +265,7 @@ export default function ChatPage() {
     };
 
     return (
-        <div className="flex h-screen bg-black text-white font-sans selection:bg-orange-500/30 selection:text-orange-200 overflow-hidden">
+        <div className="flex h-screen bg-black text-white font-sans selection:bg-indigo-500/30 selection:text-indigo-200 overflow-hidden">
 
             {/* Mobile Sidebar Overlay */}
             {isSidebarOpen && (
@@ -279,10 +280,7 @@ export default function ChatPage() {
       `}>
                 <div className="p-4 flex items-center justify-between">
                     <a href="/" className="flex items-center gap-2 group">
-                        <span className="w-8 h-8 rounded bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-orange-500/50 transition-colors">
-                            T
-                        </span>
-                        <span className="font-bold text-gray-200 group-hover:text-white transition-colors">[NEXORA]</span>
+                        <img src={logoNavbar} alt="NEXORA" className="h-8 w-auto opacity-80 group-hover:opacity-100 transition-opacity" />
                     </a>
                     <button onClick={() => setIsSidebarOpen(false)} className="md:hidden text-gray-500">
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
@@ -294,14 +292,14 @@ export default function ChatPage() {
                         onClick={createNewSession}
                         className="w-full text-left px-3 py-3 rounded-lg flex items-center gap-3 hover:bg-white/5 transition-colors text-sm text-gray-300 mb-6 border border-white/10 hover:border-orange-500/30 group"
                     >
-                        <div className="w-5 h-5 rounded-full border border-gray-500 group-hover:border-orange-500 flex items-center justify-center text-xs group-hover:text-orange-500 transition-colors">+</div>
+                        <div className="w-5 h-5 rounded-full border border-gray-500 group-hover:border-indigo-500 flex items-center justify-center text-xs group-hover:text-indigo-500 transition-colors">+</div>
                         New Extraction
                     </button>
 
                     <div className="flex items-center justify-between px-3 py-2 mb-2">
                         <div className="text-xs font-bold text-gray-600 uppercase tracking-widest">History</div>
                         {messages.length > 0 && (
-                            <button onClick={exportSession} title="Export Current Log" className="text-xs text-gray-600 hover:text-orange-500">
+                            <button onClick={exportSession} title="Export Current Log" className="text-xs text-gray-600 hover:text-indigo-500">
                                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                             </button>
                         )}
@@ -336,7 +334,7 @@ export default function ChatPage() {
                 <div className="p-4 border-t border-white/5 space-y-4">
                     {/* User Info */}
                     <div className="flex items-center gap-3 px-2 py-2 rounded hover:bg-white/5 cursor-pointer transition-colors">
-                        <div className="w-8 h-8 rounded-full bg-orange-600 flex items-center justify-center text-xs font-bold ring-2 ring-transparent group-hover:ring-orange-500/50">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-600 to-blue-600 flex items-center justify-center text-xs font-bold ring-2 ring-transparent group-hover:ring-indigo-500/50">
                             OP
                         </div>
                         <div className="flex-1 overflow-hidden">
@@ -390,7 +388,7 @@ export default function ChatPage() {
                                                 setSelectedModel(m.id);
                                                 setShowModelDropdown(false);
                                             }}
-                                            className={`w-full text-left px-4 py-2 text-xs font-mono hover:bg-white/5 transition-colors ${selectedModel === m.id ? 'text-orange-500 bg-white/5' : 'text-gray-400'}`}
+                                            className={`w-full text-left px-4 py-2 text-xs font-mono hover:bg-white/5 transition-colors ${selectedModel === m.id ? 'text-indigo-500 bg-white/5' : 'text-gray-400'}`}
                                         >
                                             {m.id}
                                         </button>
@@ -406,7 +404,7 @@ export default function ChatPage() {
                     <div className="pointer-events-auto flex items-center gap-2 ml-2 flex-shrink-0">
                         <button
                             onClick={() => setIsSettingsOpen(true)}
-                            className="p-2 bg-[#1a1a1a]/80 backdrop-blur rounded-lg border border-white/10 text-gray-400 hover:text-white hover:border-orange-500/30 transition-all active:scale-95"
+                            className="p-2 bg-[#1a1a1a]/80 backdrop-blur rounded-lg border border-white/10 text-gray-400 hover:text-white hover:border-indigo-500/30 transition-all active:scale-95"
                         >
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                         </button>
@@ -428,16 +426,16 @@ export default function ChatPage() {
                                 <div>
                                     <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-2">System Ready</h2>
                                     <p className="max-w-xs md:max-w-md text-sm md:text-base text-gray-400 mx-auto leading-relaxed">
-                                        Awaiting input from node <span className="text-orange-500 font-mono">GUEST_NODE_01</span>.
+                                        Awaiting input from node <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-blue-500 font-mono font-bold">GUEST_NODE_01</span>.
                                         Configure persona in settings.
                                     </p>
                                 </div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-sm md:max-w-lg">
-                                    <div className="p-3 border border-white/10 rounded hover:border-orange-500/50 hover:bg-white/5 transition-colors cursor-pointer" onClick={() => setInput("Analyze current market sentiment")}>
+                                    <div className="p-3 border border-white/10 rounded hover:border-indigo-500/50 hover:bg-white/5 transition-colors cursor-pointer" onClick={() => setInput("Analyze current market sentiment")}>
                                         <div className="text-xs text-gray-500 mb-1">Command</div>
                                         <div className="text-sm font-medium text-gray-300">Analyze market sentiment &rarr;</div>
                                     </div>
-                                    <div className="p-3 border border-white/10 rounded hover:border-orange-500/50 hover:bg-white/5 transition-colors cursor-pointer" onClick={() => setInput("Extract key entities from text")}>
+                                    <div className="p-3 border border-white/10 rounded hover:border-indigo-500/50 hover:bg-white/5 transition-colors cursor-pointer" onClick={() => setInput("Extract key entities from text")}>
                                         <div className="text-xs text-gray-500 mb-1">Task</div>
                                         <div className="text-sm font-medium text-gray-300">Extract key entities &rarr;</div>
                                     </div>
@@ -450,7 +448,7 @@ export default function ChatPage() {
                                 <div className="flex gap-3 md:gap-6 p-2 md:p-0 text-sm md:text-base m-auto md:max-w-3xl">
                                     <div className={`flex-shrink-0 flex flex-col relative items-end pt-1`}>
                                         <div className={`relative h-6 w-6 md:h-8 md:w-8 rounded-lg flex items-center justify-center shadow-lg ${msg.role === 'assistant'
-                                            ? 'bg-gradient-to-br from-orange-600 to-orange-800'
+                                            ? 'bg-gradient-to-br from-red-600 to-blue-600'
                                             : 'bg-gradient-to-br from-gray-800 to-black border border-gray-700'
                                             }`}>
                                             {msg.role === 'assistant' ?
@@ -483,7 +481,7 @@ export default function ChatPage() {
                                 <div className="flex gap-4 md:gap-6 p-2 md:p-0 text-base m-auto md:max-w-3xl">
                                     <div className="flex-shrink-0 flex flex-col relative items-end pt-1">
                                         <div className="relative h-6 w-6 md:h-8 md:w-8 rounded-lg flex items-center justify-center bg-transparent border border-orange-500/30">
-                                            <span className="flex w-1.5 h-1.5 md:w-2 md:h-2 bg-orange-500 rounded-full animate-ping"></span>
+                                            <span className="flex w-1.5 h-1.5 md:w-2 md:h-2 bg-indigo-500 rounded-full animate-ping"></span>
                                         </div>
                                     </div>
                                     <div className="relative flex-1 overflow-hidden pt-1">
@@ -500,8 +498,8 @@ export default function ChatPage() {
                 <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black to-transparent pt-8 pb-4 md:pb-8 px-2 md:px-0 z-30">
                     <div className="max-w-3xl mx-auto px-1 md:px-4">
                         <div className="relative group">
-                            <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-500/20 to-blue-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
-                            <form onSubmit={submit} className="relative flex items-end w-full bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden focus-within:border-orange-500/40 focus-within:bg-[#1f1f1f] transition-all">
+                            <div className="absolute -inset-0.5 bg-gradient-to-r from-red-500/20 to-blue-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                            <form onSubmit={submit} className="relative flex items-end w-full bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden focus-within:border-indigo-500/40 focus-within:bg-[#1f1f1f] transition-all">
                                 <textarea
                                     ref={textareaRef}
                                     className="flex-1 max-h-[150px] md:max-h-[200px] m-0 w-full resize-none border-0 bg-transparent py-3 md:py-4 pl-3 md:pl-4 pr-10 md:pr-12 focus:ring-0 focus-visible:ring-0 text-white placeholder-gray-500 leading-relaxed text-sm md:text-base scrollbar-thin scrollbar-thumb-gray-600"
@@ -519,7 +517,7 @@ export default function ChatPage() {
                                 <button
                                     disabled={!input || isLoading}
                                     type="submit"
-                                    className="absolute bottom-1.5 md:bottom-2.5 right-1.5 md:right-2 p-2 rounded-xl text-gray-400 hover:bg-orange-600 hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-all"
+                                    className="absolute bottom-1.5 md:bottom-2.5 right-1.5 md:right-2 p-2 rounded-xl text-gray-400 hover:bg-indigo-600 hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-all"
                                 >
                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" /></svg>
                                 </button>
@@ -547,7 +545,7 @@ export default function ChatPage() {
                             <div>
                                 <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Agent Persona (System Prompt)</label>
                                 <textarea
-                                    className="w-full h-32 bg-black border border-white/10 rounded-lg p-3 text-sm text-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none resize-none transition-all"
+                                    className="w-full h-32 bg-black border border-white/10 rounded-lg p-3 text-sm text-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none resize-none transition-all"
                                     value={systemPrompt}
                                     onChange={(e) => setSystemPrompt(e.target.value)}
                                     placeholder="Define how the AI should behave..."
@@ -565,7 +563,7 @@ export default function ChatPage() {
                                         setIsSettingsOpen(false);
                                         playSound('click');
                                     }}
-                                    className="px-4 py-2 rounded-lg text-xs font-bold bg-orange-600 text-white hover:bg-orange-500 transition-colors shadow-lg shadow-orange-900/20"
+                                    className="px-4 py-2 rounded-lg text-xs font-bold bg-gradient-to-r from-red-600 to-blue-600 text-white hover:opacity-90 transition-colors shadow-lg shadow-indigo-900/20"
                                 >
                                     Save Changes
                                 </button>
