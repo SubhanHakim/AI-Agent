@@ -338,7 +338,8 @@ export default function ChatPage() {
                     </div>
                 </div>
 
-                <div className="p-4 border-t border-white/5">
+                <div className="p-4 border-t border-white/5 space-y-4">
+                    {/* User Info */}
                     <div className="flex items-center gap-3 px-2 py-2 rounded hover:bg-white/5 cursor-pointer transition-colors">
                         <div className="w-8 h-8 rounded-full bg-orange-600 flex items-center justify-center text-xs font-bold ring-2 ring-transparent group-hover:ring-orange-500/50">
                             OP
@@ -353,35 +354,44 @@ export default function ChatPage() {
                             </div>
                         </div>
                     </div>
+
+                    {/* Mobile Disconnect Button (Visible only when wallet is connected) */}
+                    {publicKey && (
+                        <div className="md:hidden">
+                            <WalletMultiButton className="!bg-red-500/10 !border !border-red-500/20 !text-red-400 !w-full !justify-center !h-10 !text-sm hover:!bg-red-500/20 !transition-colors !rounded-lg" />
+                        </div>
+                    )}
                 </div>
             </aside>
 
             {/* Main Chat Area */}
-            <main className="flex-1 flex flex-col relative h-full bg-black">
+            <main className="flex-1 flex flex-col relative h-full bg-black w-full">
 
-                {/* Top Header Floating */}
-                <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-20 pointer-events-none">
+                {/* Top Header Floating - Mobile Optimized */}
+                <div className="absolute top-0 left-0 right-0 p-3 md:p-4 flex justify-between items-center z-20 pointer-events-none">
                     {/* Gradient Mask for Smooth Scroll under Header */}
-                    <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black via-black/80 to-transparent -z-10 pointer-events-none"></div>
+                    <div className="absolute inset-x-0 top-0 h-24 md:h-32 bg-gradient-to-b from-black via-black/80 to-transparent -z-10 pointer-events-none"></div>
 
-                    {/* Mobile Menu Button */}
-                    <div className="pointer-events-auto md:hidden mr-2">
-                        <button onClick={() => setIsSidebarOpen(true)} className="p-2 bg-[#1a1a1a] rounded-lg border border-white/10 text-gray-400 hover:text-white">
+                    {/* Left Side: Mobile Menu */}
+                    <div className="pointer-events-auto md:hidden mr-2 flex-shrink-0">
+                        <button onClick={() => setIsSidebarOpen(true)} className="p-2 bg-[#1a1a1a] rounded-lg border border-white/10 text-gray-400 hover:text-white active:bg-white/10 transition-colors">
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
                         </button>
                     </div>
 
-                    <div className="mx-auto bg-[#1a1a1a]/95 backdrop-blur-md pl-4 pr-2 py-1.5 rounded-full border border-white/10 flex items-center gap-3 shadow-2xl pointer-events-auto relative z-50">
-                        <div className="relative">
+                    {/* Center: Model Selector */}
+                    <div className="mx-auto bg-[#1a1a1a]/95 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 flex items-center gap-2 md:gap-3 shadow-2xl pointer-events-auto relative z-50 max-w-[50%] md:max-w-none">
+                        <div className="relative min-w-0">
                             <button
                                 onClick={() => setShowModelDropdown(!showModelDropdown)}
-                                className="flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white transition-colors outline-none"
+                                className="flex items-center gap-1 md:gap-2 text-xs md:text-sm font-medium text-gray-300 hover:text-white transition-colors outline-none w-full"
                             >
-                                <span className="max-w-[100px] md:max-w-[150px] truncate">{selectedModel}</span>
-                                <svg className={`w-3 h-3 text-gray-500 transition-transform ${showModelDropdown ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                                <span className="truncate max-w-[80px] sm:max-w-[150px]">{selectedModel}</span>
+                                <svg className={`w-3 h-3 text-gray-500 transition-transform flex-shrink-0 ${showModelDropdown ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                             </button>
+                            {/* Dropdown Logic remains same ... */}
                             {showModelDropdown && (
-                                <div className="absolute top-full left-0 mt-3 w-64 max-h-80 overflow-y-auto bg-[#1a1a1a] border border-white/10 rounded-xl shadow-2xl py-2 scrollbar-thin scrollbar-thumb-gray-700">
+                                <div className="absolute top-full left-0 mt-3 w-56 md:w-64 max-h-60 overflow-y-auto bg-[#1a1a1a] border border-white/10 rounded-xl shadow-2xl py-2 scrollbar-thin scrollbar-thumb-gray-700">
                                     {models.map((m: any) => (
                                         <button
                                             key={m.id}
@@ -397,19 +407,20 @@ export default function ChatPage() {
                                 </div>
                             )}
                         </div>
-                        <div className="h-4 w-px bg-white/10"></div>
-                        <span className="text-[10px] text-orange-500 font-bold tracking-widest px-2 hidden sm:inline">LIVE</span>
+                        <div className="h-3 w-px bg-white/10 hidden sm:block"></div>
+                        <span className="text-[10px] text-orange-500 font-bold tracking-widest px-1 hidden sm:inline">LIVE</span>
                     </div>
 
-                    <div className="pointer-events-auto flex items-center gap-2 ml-2">
+                    {/* Right Side: Settings & Wallet */}
+                    <div className="pointer-events-auto flex items-center gap-2 ml-2 flex-shrink-0">
                         <button
                             onClick={() => setIsSettingsOpen(true)}
-                            className="p-2 bg-[#1a1a1a]/80 backdrop-blur rounded-lg border border-white/10 text-gray-400 hover:text-white hover:border-orange-500/30 transition-all"
+                            className="p-2 bg-[#1a1a1a]/80 backdrop-blur rounded-lg border border-white/10 text-gray-400 hover:text-white hover:border-orange-500/30 transition-all active:scale-95"
                         >
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                         </button>
-                        <div>
-                            <WalletMultiButton className="!bg-white/5 !text-xs !font-mono !h-8 !px-2 md:!px-3 hover:!bg-white/10 !rounded-lg whitespace-nowrap" />
+                        <div className="flex-shrink-0">
+                            <WalletMultiButton className="!bg-white/5 !text-xs !font-mono !h-9 md:!h-8 !px-3 hover:!bg-white/10 !rounded-lg whitespace-nowrap" />
                         </div>
                     </div>
                 </div>
@@ -417,21 +428,22 @@ export default function ChatPage() {
                 {/* Messages Area */}
                 <div className="flex-1 overflow-y-auto p-4 md:p-0 scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent">
                     {/* Added extra padding bottom to account for auto-growing input */}
-                    <div className="max-w-3xl mx-auto flex flex-col pt-28 pb-64">
+                    <div className="max-w-3xl mx-auto flex flex-col pt-24 md:pt-28 pb-32 md:pb-64">
 
+                        {/* Empty State ... (No changes needed logic wise, just existing structure) */}
                         {messages.length === 0 && (
-                            <div className="flex-1 flex flex-col items-center justify-center text-center space-y-8 opacity-40 select-none px-4">
-                                <div className="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center mb-4 border border-white/5">
-                                    <span className="text-5xl text-gray-500">❖</span>
+                            <div className="flex-1 flex flex-col items-center justify-center text-center space-y-8 opacity-40 select-none px-4 min-h-[50vh]">
+                                <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-white/5 flex items-center justify-center mb-4 border border-white/5">
+                                    <span className="text-4xl md:text-5xl text-gray-500">❖</span>
                                 </div>
                                 <div>
-                                    <h2 className="text-2xl font-bold tracking-tight mb-2">System Ready</h2>
-                                    <p className="max-w-md text-gray-400 mx-auto">
+                                    <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-2">System Ready</h2>
+                                    <p className="max-w-xs md:max-w-md text-sm md:text-base text-gray-400 mx-auto leading-relaxed">
                                         Awaiting input from node <span className="text-orange-500 font-mono">{publicKey ? publicKey.toBase58().slice(0, 6) : "Unknown"}</span>.
                                         Configure persona in settings.
                                     </p>
                                 </div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-sm md:max-w-lg">
                                     <div className="p-3 border border-white/10 rounded hover:border-orange-500/50 hover:bg-white/5 transition-colors cursor-pointer" onClick={() => setInput("Analyze current market sentiment")}>
                                         <div className="text-xs text-gray-500 mb-1">Command</div>
                                         <div className="text-sm font-medium text-gray-300">Analyze market sentiment &rarr;</div>
@@ -445,30 +457,29 @@ export default function ChatPage() {
                         )}
 
                         {messages.map((msg, i) => (
-                            <div key={i} className={`group w-full text-gray-100 ${msg.role === 'assistant' ? 'bg-transparent' : 'bg-transparent'
-                                }`}>
-                                <div className="flex gap-4 sm:gap-6 p-4 md:px-0 text-base m-auto md:max-w-3xl">
+                            <div key={i} className={`group w-full text-gray-100`}>
+                                <div className="flex gap-3 md:gap-6 p-2 md:p-0 text-sm md:text-base m-auto md:max-w-3xl">
                                     <div className={`flex-shrink-0 flex flex-col relative items-end pt-1`}>
-                                        <div className={`relative h-8 w-8 rounded-lg flex items-center justify-center shadow-lg ${msg.role === 'assistant'
+                                        <div className={`relative h-6 w-6 md:h-8 md:w-8 rounded-lg flex items-center justify-center shadow-lg ${msg.role === 'assistant'
                                             ? 'bg-gradient-to-br from-orange-600 to-orange-800'
                                             : 'bg-gradient-to-br from-gray-800 to-black border border-gray-700'
                                             }`}>
                                             {msg.role === 'assistant' ?
-                                                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+                                                <svg className="w-3.5 h-3.5 md:w-5 md:h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
                                                 :
                                                 <div className="w-full h-full rounded-lg overflow-hidden bg-black flex items-center justify-center">
-                                                    <div className="w-4 h-4 bg-purple-500 rounded-full blur-[2px]"></div>
+                                                    <div className="w-3 h-3 md:w-4 md:h-4 bg-purple-500 rounded-full blur-[2px]"></div>
                                                 </div>
                                             }
                                         </div>
                                     </div>
-                                    <div className="relative flex-1 overflow-hidden">
+                                    <div className="relative flex-1 overflow-hidden min-w-0">
                                         {msg.role === 'user' ? (
                                             <div className="font-medium text-gray-200">
                                                 <div className="text-[10px] text-gray-500 font-mono mb-1">
                                                     {publicKey ? publicKey.toBase58().slice(0, 8) + '...' : 'ANONYMOUS'}
                                                 </div>
-                                                <div className="whitespace-pre-wrap">{msg.content}</div>
+                                                <div className="whitespace-pre-wrap break-words">{msg.content}</div>
                                             </div>
                                         ) : (
                                             <MessageContent content={msg.content} isLatestAssistant={i === messages.length - 1} />
@@ -480,14 +491,14 @@ export default function ChatPage() {
 
                         {isLoading && (
                             <div className="w-full text-gray-100">
-                                <div className="flex gap-6 p-4 md:px-0 text-base m-auto md:max-w-3xl">
+                                <div className="flex gap-4 md:gap-6 p-2 md:p-0 text-base m-auto md:max-w-3xl">
                                     <div className="flex-shrink-0 flex flex-col relative items-end pt-1">
-                                        <div className="relative h-8 w-8 rounded-lg flex items-center justify-center bg-transparent border border-orange-500/30">
-                                            <span className="flex w-2 h-2 bg-orange-500 rounded-full animate-ping"></span>
+                                        <div className="relative h-6 w-6 md:h-8 md:w-8 rounded-lg flex items-center justify-center bg-transparent border border-orange-500/30">
+                                            <span className="flex w-1.5 h-1.5 md:w-2 md:h-2 bg-orange-500 rounded-full animate-ping"></span>
                                         </div>
                                     </div>
                                     <div className="relative flex-1 overflow-hidden pt-1">
-                                        <span className="animate-pulse text-gray-500 font-mono text-sm">PROCESSING_VECTOR...</span>
+                                        <span className="animate-pulse text-gray-500 font-mono text-xs md:text-sm">PROCESSING_VECTOR...</span>
                                     </div>
                                 </div>
                             </div>
@@ -496,15 +507,15 @@ export default function ChatPage() {
                     </div>
                 </div>
 
-                {/* Fixed Input Area */}
-                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black to-transparent pt-12 pb-8 px-2 md:px-0 z-30">
-                    <div className="max-w-3xl mx-auto px-2 md:px-4">
+                {/* Fixed Input Area - Mobile Optimized */}
+                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black to-transparent pt-8 pb-4 md:pb-8 px-2 md:px-0 z-30">
+                    <div className="max-w-3xl mx-auto px-1 md:px-4">
                         <div className="relative group">
                             <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-500/20 to-blue-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
                             <form onSubmit={submit} className="relative flex items-end w-full bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden focus-within:border-orange-500/40 focus-within:bg-[#1f1f1f] transition-all">
                                 <textarea
                                     ref={textareaRef}
-                                    className="flex-1 max-h-[200px] m-0 w-full resize-none border-0 bg-transparent py-4 pl-4 pr-12 focus:ring-0 focus-visible:ring-0 text-white placeholder-gray-500 leading-6 text-sm sm:text-base scrollbar-thin scrollbar-thumb-gray-600"
+                                    className="flex-1 max-h-[150px] md:max-h-[200px] m-0 w-full resize-none border-0 bg-transparent py-3 md:py-4 pl-3 md:pl-4 pr-10 md:pr-12 focus:ring-0 focus-visible:ring-0 text-white placeholder-gray-500 leading-relaxed text-sm md:text-base scrollbar-thin scrollbar-thumb-gray-600"
                                     placeholder="Transmission content..."
                                     rows={1}
                                     value={input}
@@ -519,14 +530,14 @@ export default function ChatPage() {
                                 <button
                                     disabled={!input || isLoading}
                                     type="submit"
-                                    className="absolute bottom-2.5 right-2 p-2 rounded-xl text-gray-400 hover:bg-orange-600 hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-all"
+                                    className="absolute bottom-1.5 md:bottom-2.5 right-1.5 md:right-2 p-2 rounded-xl text-gray-400 hover:bg-orange-600 hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-all"
                                 >
                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" /></svg>
                                 </button>
                             </form>
                         </div>
-                        <div className="mt-3 text-center">
-                            <span className="text-[10px] text-gray-600 uppercase tracking-widest">Encrypted // End-to-End // V1.0.4</span>
+                        <div className="mt-2 text-center hidden md:block">
+                            <span className="text-[10px] text-gray-600 uppercase tracking-widest">Encrypted // End-to-End</span>
                         </div>
                     </div>
                 </div>
