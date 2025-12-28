@@ -8,6 +8,34 @@ export default function Navbar() {
         navigate('/chat');
     };
 
+    const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+        e.preventDefault();
+
+        if (window.lenis) {
+            // Use Lenis for luxury smooth scroll
+            window.lenis.scrollTo(`#${id}`, {
+                offset: -100, // Negative value for top offset
+                duration: 1.5, // Slower duration for smoother feel
+                easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            });
+        } else {
+            // Fallback
+            const element = document.getElementById(id);
+            if (element) {
+                const offset = 100;
+                const bodyRect = document.body.getBoundingClientRect().top;
+                const elementRect = element.getBoundingClientRect().top;
+                const elementPosition = elementRect - bodyRect;
+                const offsetPosition = elementPosition - offset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+    };
+
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-black/50 backdrop-blur-xl">
             <div className="flex items-center justify-between px-6 py-4 w-full max-w-[1400px] mx-auto">
@@ -17,9 +45,9 @@ export default function Navbar() {
 
                 {/* Desktop Navigation Links */}
                 <div className="hidden md:flex items-center gap-8 text-sm font-medium">
-                    <a href="#directives" className="text-gray-400 hover:text-white transition-colors duration-200">System Directives</a>
-                    <a href="#architecture" className="text-gray-400 hover:text-white transition-colors duration-200">Trust Architecture</a>
-                    <a href="#code" className="text-gray-400 hover:text-white transition-colors duration-200">CLI</a>
+                    <a href="#directives" onClick={(e) => handleScroll(e, 'directives')} className="text-gray-400 hover:text-white transition-colors duration-200">System Directives</a>
+                    <a href="#architecture" onClick={(e) => handleScroll(e, 'architecture')} className="text-gray-400 hover:text-white transition-colors duration-200">Trust Architecture</a>
+                    <a href="#code" onClick={(e) => handleScroll(e, 'code')} className="text-gray-400 hover:text-white transition-colors duration-200">CLI</a>
                 </div>
 
                 {/* Enter Terminal Button */}
