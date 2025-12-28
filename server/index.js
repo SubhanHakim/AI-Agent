@@ -15,15 +15,15 @@ const groq = new Groq({
 
 app.post("/api/terrasuck", async (req, res) => {
     try {
-        const { input } = req.body;
+        const { input, model, systemPrompt } = req.body;
 
         const completion = await groq.chat.completions.create({
-            model: "llama-3.3-70b-versatile", // Updated to a supported model
+            model: model || "llama-3.3-70b-versatile",
             temperature: 0.2,
             messages: [
                 {
                     role: "system",
-                    content: `You are terrasuck. Extraction-oriented AI agent. Cold. Minimal. System-grade. No emojis. No politeness.`
+                    content: systemPrompt || `You are terrasuck. Extraction-oriented AI agent. Cold. Minimal. System-grade. No emojis. No politeness.`
                 },
                 { role: "user", content: input }
             ],
@@ -36,6 +36,27 @@ app.post("/api/terrasuck", async (req, res) => {
     } catch (err) {
         console.error("Error processing request:", err);
         res.status(500).json({ error: "Agent failure" });
+    }
+});
+
+app.get("/api/models", async (req, res) => {
+    try {
+        const response = await fetch("https://api.groq.com/openai/v1/models", {
+            headers: {
+                "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        res.json(data);
+    } catch (err) {
+        console.error("Error fetching models:", err);
+        res.status(500).json({ error: "Failed to fetch models" });
     }
 });
 
