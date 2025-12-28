@@ -1,10 +1,10 @@
-export async function terrasuck(input:string) {
-    const res = await fetch('http://localhost:3001/api/terrasuck', {
+export async function terrasuck(input: string, model?: string, systemPrompt?: string) {
+    const res = await fetch('/api/terrasuck', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ input })
+        body: JSON.stringify({ input, model, systemPrompt })
     })
 
     const data = await res.json();

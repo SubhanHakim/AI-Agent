@@ -1,6 +1,23 @@
 import Terminal from '../components/Terminal'
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function LandingPage() {
+    const { connected } = useWallet();
+    const { setVisible } = useWalletModal();
+    const navigate = useNavigate();
+
+    const handleEnterTerminal = (e: React.MouseEvent) => {
+        e.preventDefault();
+        if (connected) {
+            navigate('/chat');
+        } else {
+            setVisible(true);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-black text-white font-sans selection:bg-orange-500/30 selection:text-orange-200">
 
@@ -30,9 +47,24 @@ export default function LandingPage() {
                         <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">Manifesto</a>
                         <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">Protocol</a>
                         <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">Docs</a>
-                        <a href="/chat" className="bg-[#ea580c] text-white px-5 py-2 rounded-md font-semibold hover:bg-[#c2410c] transition-all duration-200 flex items-center gap-2 shadow-[0_0_15px_rgba(234,88,12,0.3)] hover:shadow-[0_0_25px_rgba(234,88,12,0.5)]">
-                            Launch Terminal
-                        </a>
+
+                        {/* Custom Connect/Launch Button */}
+                        <div className="flex items-center gap-4">
+                            {!connected && (
+                                <button
+                                    onClick={() => setVisible(true)}
+                                    className="text-gray-400 hover:text-white transition-colors"
+                                >
+                                    Sign In
+                                </button>
+                            )}
+                            <button
+                                onClick={handleEnterTerminal}
+                                className="bg-[#ea580c] text-white px-5 py-2 rounded-md font-semibold hover:bg-[#c2410c] transition-all duration-200 flex items-center gap-2 shadow-[0_0_15px_rgba(234,88,12,0.3)] hover:shadow-[0_0_25px_rgba(234,88,12,0.5)]"
+                            >
+                                {connected ? 'Launch Terminal' : 'Connect Wallet'}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -64,13 +96,13 @@ export default function LandingPage() {
                         </a>
 
                         {/* Dashboard Entry */}
-                        <a
-                            href="/chat"
+                        <button
+                            onClick={handleEnterTerminal}
                             className="px-8 py-3 rounded-full bg-orange-600 hover:bg-orange-500 text-white font-bold shadow-[0_0_20px_rgba(234,88,12,0.3)] hover:shadow-[0_0_30px_rgba(234,88,12,0.6)] hover:scale-105 transition-all duration-300 flex items-center gap-2"
                         >
-                            <span>Enter Terminal</span>
+                            <span>{connected ? 'Enter Terminal' : 'Connect & Enter'}</span>
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                        </a>
+                        </button>
                     </div>
                 </div>
 
