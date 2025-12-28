@@ -43,28 +43,30 @@ export default function LandingPage() {
                             [TERRASUCK]
                         </span>
                     </div>
+
+                    {/* Desktop Navigation Links */}
                     <div className="hidden md:flex items-center gap-8 text-sm font-medium">
                         <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">Manifesto</a>
                         <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">Protocol</a>
                         <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">Docs</a>
+                    </div>
 
-                        {/* Custom Connect/Launch Button */}
-                        <div className="flex items-center gap-4">
-                            {!connected && (
-                                <button
-                                    onClick={() => setVisible(true)}
-                                    className="text-gray-400 hover:text-white transition-colors"
-                                >
-                                    Sign In
-                                </button>
-                            )}
+                    {/* Connect/Launch Button - Visible on ALL screens */}
+                    <div className="flex items-center gap-4">
+                        {!connected && (
                             <button
-                                onClick={handleEnterTerminal}
-                                className="bg-[#ea580c] text-white px-5 py-2 rounded-md font-semibold hover:bg-[#c2410c] transition-all duration-200 flex items-center gap-2 shadow-[0_0_15px_rgba(234,88,12,0.3)] hover:shadow-[0_0_25px_rgba(234,88,12,0.5)]"
+                                onClick={() => setVisible(true)}
+                                className="text-gray-400 hover:text-white transition-colors hidden sm:block"
                             >
-                                {connected ? 'Launch Terminal' : 'Connect Wallet'}
+                                Sign In
                             </button>
-                        </div>
+                        )}
+                        <button
+                            onClick={handleEnterTerminal}
+                            className="bg-[#ea580c] text-white px-4 py-2 text-sm md:px-5 md:py-2 md:text-base rounded-md font-semibold hover:bg-[#c2410c] transition-all duration-200 flex items-center gap-2 shadow-[0_0_15px_rgba(234,88,12,0.3)] hover:shadow-[0_0_25px_rgba(234,88,12,0.5)] whitespace-nowrap"
+                        >
+                            {connected ? 'Launch Terminal' : 'Connect Wallet'}
+                        </button>
                     </div>
                 </div>
             </nav>
