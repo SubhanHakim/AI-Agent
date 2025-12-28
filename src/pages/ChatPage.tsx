@@ -75,8 +75,7 @@ const MessageContent = ({ content, isLatestAssistant }: { content: string, isLat
 }
 
 export default function ChatPage() {
-    // const { publicKey } = useWallet(); // Wallet Removed
-    const publicKey = null; // Always Guest Mode
+
     const [input, setInput] = useState("");
     const [messages, setMessages] = useState<Message[]>([]);
     const [isLoading, setIsLoading] = useState(false);
