@@ -12,6 +12,7 @@ import logoNavbar from "../assets/logo_navbar.svg";
 interface Message {
     role: 'user' | 'assistant';
     content: string;
+    attachment?: string | null; // Base64 image
 }
 
 interface ChatSession {
@@ -90,6 +91,26 @@ export default function ChatPage() {
     // Model & System Prompt State
 
     const [systemPrompt, setSystemPrompt] = useState(DEFAULT_SYSTEM_PROMPT);
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setSelectedImage(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const clearImage = () => {
+        setSelectedImage(null);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
+    };
 
     useEffect(() => {
         // Scroll to bottom when messages change with a slight delay
@@ -206,11 +227,13 @@ export default function ChatPage() {
 
     const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!input || isLoading) return;
+        // Allow sending if text OR image exists
+        if ((!input && !selectedImage) || isLoading) return;
 
         playSound('send');
         const userMessage = input;
-        const newHistoryUser = [...messages, { role: 'user', content: userMessage } as Message];
+        const newMsg: Message = { role: 'user', content: userMessage, attachment: selectedImage };
+        const newHistoryUser = [...messages, newMsg];
 
         let activeSessionId = currentSessionId;
         if (!activeSessionId) {
@@ -224,7 +247,8 @@ export default function ChatPage() {
         setIsLoading(true);
 
         try {
-            const output = await terrasuck(userMessage, systemPrompt);
+            const output = await terrasuck(userMessage, selectedImage, systemPrompt);
+            clearImage();
             playSound('receive');
             const newHistoryAssistant = [...newHistoryUser, { role: 'assistant', content: output } as Message];
             setMessages(newHistoryAssistant);
@@ -419,7 +443,12 @@ export default function ChatPage() {
                                                 <div className="text-[10px] text-gray-500 font-mono mb-1">
                                                     GUEST_NODE
                                                 </div>
-                                                <div className="whitespace-pre-wrap break-words">{msg.content}</div>
+                                                {msg.attachment && (
+                                                    <div className="mb-2">
+                                                        <img src={msg.attachment} alt="Attachment" className="max-h-48 md:max-h-64 rounded-xl border border-white/10 shadow-lg object-contain" />
+                                                    </div>
+                                                )}
+                                                {msg.content && <div className="whitespace-pre-wrap break-words">{msg.content}</div>}
                                             </div>
                                         ) : (
                                             <MessageContent content={msg.content} isLatestAssistant={i === messages.length - 1} />
@@ -451,29 +480,80 @@ export default function ChatPage() {
                 <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black to-transparent pt-8 pb-4 md:pb-8 px-2 md:px-0 z-30">
                     <div className="max-w-3xl mx-auto px-1 md:px-4">
                         <div className="relative group">
-                            <div className="absolute -inset-0.5 bg-gradient-to-r from-red-500/20 to-blue-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
-                            <form onSubmit={submit} className="relative flex items-end w-full bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden focus-within:border-indigo-500/40 focus-within:bg-[#1f1f1f] transition-all">
-                                <textarea
-                                    ref={textareaRef}
-                                    className="flex-1 max-h-[150px] md:max-h-[200px] m-0 w-full resize-none border-0 bg-transparent py-3 md:py-4 pl-3 md:pl-4 pr-10 md:pr-12 focus:ring-0 focus-visible:ring-0 text-white placeholder-gray-500 leading-relaxed text-sm md:text-base scrollbar-thin scrollbar-thumb-gray-600"
-                                    placeholder="Transmission content..."
-                                    rows={1}
-                                    value={input}
-                                    onChange={(e) => setInput(e.target.value)}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter' && !e.shiftKey) {
-                                            e.preventDefault();
-                                            submit(e as any);
-                                        }
-                                    }}
-                                />
-                                <button
-                                    disabled={!input || isLoading}
-                                    type="submit"
-                                    className="absolute bottom-1.5 md:bottom-2.5 right-1.5 md:right-2 p-2 rounded-xl text-gray-400 hover:bg-indigo-600 hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-all"
-                                >
-                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" /></svg>
-                                </button>
+                            <div className="absolute -inset-0.5 bg-gradient-to-r from-red-500/20 to-blue-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-1000"></div>
+
+                            <form onSubmit={submit} className="relative flex flex-col w-full bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-2xl focus-within:border-indigo-500/40 focus-within:bg-[#1f1f1f] transition-all overflow-hidden">
+
+                                {/* Image Preview Integrated */}
+                                {selectedImage && (
+                                    <div className="p-3 pb-0 animate-fade-in-up">
+                                        <div className="relative inline-block group/preview">
+                                            <div className="relative rounded-xl overflow-hidden border border-white/10 shadow-lg">
+                                                <img src={selectedImage} alt="Preview" className="h-16 md:h-20 w-auto object-cover bg-black/50" />
+                                                <div className="absolute inset-0 bg-black/0 group-hover/preview:bg-black/20 transition-all"></div>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={clearImage}
+                                                className="absolute -top-2 -right-2 bg-black/50 hover:bg-red-500 text-white backdrop-blur border border-white/20 rounded-full p-1 shadow-lg transform scale-90 group-hover/preview:scale-100 transition-all opacity-0 group-hover/preview:opacity-100"
+                                            >
+                                                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="flex items-end w-full">
+
+                                    {/* Attach Button */}
+                                    <div className="pl-3 pb-3 md:pb-4">
+                                        <input
+                                            type="file"
+                                            ref={fileInputRef}
+                                            onChange={handleImageUpload}
+                                            accept="image/*"
+                                            className="hidden"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => fileInputRef.current?.click()}
+                                            className={`p-2 rounded-xl transition-all duration-300 transform active:scale-95 hover:bg-white/10 ${selectedImage ? 'text-indigo-400' : 'text-gray-400 hover:text-white'}`}
+                                            title="Attach Image"
+                                        >
+                                            <svg className="w-6 h-6 transform -rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
+                                        </button>
+                                    </div>
+
+                                    <textarea
+                                        ref={textareaRef}
+                                        className="flex-1 max-h-[150px] md:max-h-[200px] m-0 w-full resize-none border-0 bg-transparent py-4 md:py-5 px-3 focus:ring-0 focus-visible:ring-0 text-gray-100 placeholder-gray-500 text-sm md:text-base scrollbar-thin scrollbar-thumb-gray-600 font-medium leading-relaxed"
+                                        placeholder={selectedImage ? "Add a caption..." : "Message NEXORA..."}
+                                        rows={1}
+                                        value={input}
+                                        onChange={(e) => setInput(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter' && !e.shiftKey) {
+                                                e.preventDefault();
+                                                submit(e as any);
+                                            }
+                                        }}
+                                    />
+
+                                    {/* Send Button */}
+                                    <div className="pr-3 pb-3 md:pb-4">
+                                        <button
+                                            disabled={(!input && !selectedImage) || isLoading}
+                                            type="submit"
+                                            className={`p-2 rounded-xl transition-all duration-300 ${(!input && !selectedImage) || isLoading ? 'text-gray-600 bg-transparent' : 'text-white bg-white/10 hover:bg-white/20'}`}
+                                        >
+                                            {isLoading ? (
+                                                <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                            ) : (
+                                                <svg className="w-5 h-5 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                         <div className="mt-2 text-center hidden md:block">
