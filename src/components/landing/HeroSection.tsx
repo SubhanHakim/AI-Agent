@@ -27,7 +27,7 @@ export default function HeroSection() {
                 </a>
 
                 {/* Dexscreener Link */}
-                <a href="#" target="_blank" className="px-6 py-3 rounded-full bg-[#1e2329]/50 hover:bg-[#2b323b]/80 border border-white/10 hover:border-white/20 text-gray-300 hover:text-white flex items-center gap-2 transition-all duration-300 font-medium">
+                <a href="https://pump.fun/coin/AXyPMGbouwDiTreLSCCT1wZZYLV72Kt2u8Qk3qTypump" target="_blank" className="px-6 py-3 rounded-full bg-[#1e2329]/50 hover:bg-[#2b323b]/80 border border-white/10 hover:border-white/20 text-gray-300 hover:text-white flex items-center gap-2 transition-all duration-300 font-medium">
                     <img src={dexscreenerIcon} alt="Dexscreener" className="w-5 h-5" />
                     <span>Pumpfun</span>
                 </a>
