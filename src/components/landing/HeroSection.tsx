@@ -78,7 +78,7 @@ export default function HeroSection() {
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                     </button>
 
-                    <a href="https://x.com/nexora_key" target="_blank" className="px-10 py-5 bg-white border-2 border-slate-200 text-slate-900 text-sm font-bold tracking-wider uppercase hover:border-slate-900 hover:bg-slate-50 transition-all flex items-center gap-2">
+                    <a href="https://x.com/i/communities/2011350891186774426" target="_blank" className="px-10 py-5 bg-white border-2 border-slate-200 text-slate-900 text-sm font-bold tracking-wider uppercase hover:border-slate-900 hover:bg-slate-50 transition-all flex items-center gap-2">
                         Protocol X
                         <svg className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                     </a>
