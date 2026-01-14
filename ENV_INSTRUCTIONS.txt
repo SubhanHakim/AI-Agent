@@ -1,0 +1,12 @@
+IMPORTANT SETUP REQUIRED:
+
+1. Create a file named ".env" in the root directory (d:\project\moonchad\AI-Agent\.env).
+2. Add your OpenAI API key to it like this:
+
+OPENAI_API_KEY=sk-your-actual-api-key-here
+
+3. After saving the .env file, you must start the backend server.
+   Run this command in a new terminal:
+   npm run server
+
+4. Keep the server running while you use the chat.

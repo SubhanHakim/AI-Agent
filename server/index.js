@@ -14,8 +14,8 @@ const client = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Single Model Focus: The Real GPT-5.2
-const TARGET_MODEL = "gpt-5.2";
+// Single Model Focus: The Real GPT-4o
+const TARGET_MODEL = "gpt-4o";
 
 app.post("/api/terrasuck", async (req, res) => {
     try {
@@ -88,7 +88,7 @@ app.post("/api/terrasuck", async (req, res) => {
             messages: [
                 {
                     role: "system",
-                    content: systemPrompt || "You are NEXORA. Extraction-oriented AI agent. Running on GPT-5.2 Core."
+                    content: systemPrompt || "You are NEXORA. Extraction-oriented AI agent. Running on GPT-4o Core."
                 },
                 { role: "user", content: finalUserMessage }
             ],
@@ -134,5 +134,5 @@ app.post("/api/terrasuck", async (req, res) => {
 });
 
 app.listen(3001, () =>
-    console.log("NEXORA server running on :3001 (GPT-5.2 Mode)")
+    console.log("NEXORA server running on :3001 (GPT-4o Mode)")
 );
