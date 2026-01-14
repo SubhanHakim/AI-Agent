@@ -69,18 +69,27 @@ export default function HeroSection() {
                     </div>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-4 pt-4">
+                <div className="flex flex-wrap lg:flex-nowrap items-center justify-start gap-4 pt-4 w-full">
                     <button
                         onClick={handleEnterTerminal}
-                        className="px-10 py-5 bg-slate-900 text-white text-sm font-bold tracking-wider uppercase hover:bg-blue-700 transition-all flex items-center gap-3 shadow-[0_10px_20px_rgba(15,23,42,0.2)] hover:shadow-[0_20px_40px_rgba(37,99,235,0.3)] hover:-translate-y-1 active:translate-y-0"
+                        className="flex-1 md:flex-none px-6 py-4 bg-slate-900 text-white text-sm font-bold tracking-wider uppercase hover:bg-blue-700 transition-all flex items-center justify-center gap-3 shadow-[0_10px_20px_rgba(15,23,42,0.2)] hover:shadow-[0_20px_40px_rgba(37,99,235,0.3)] hover:-translate-y-1 active:translate-y-0 whitespace-nowrap"
                     >
                         Initialize Agent
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                     </button>
 
-                    <a href="https://x.com/i/communities/2011350891186774426" target="_blank" className="px-10 py-5 bg-white border-2 border-slate-200 text-slate-900 text-sm font-bold tracking-wider uppercase hover:border-slate-900 hover:bg-slate-50 transition-all flex items-center gap-2">
+                    <a href="https://x.com/i/communities/2011350891186774426" target="_blank" className="flex-1 md:flex-none px-6 py-4 bg-white border-2 border-slate-200 text-slate-900 text-sm font-bold tracking-wider uppercase hover:border-slate-900 hover:bg-slate-50 transition-all flex items-center justify-center gap-2 group whitespace-nowrap">
                         Protocol X
                         <svg className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                    </a>
+
+                    <a href="https://pump.fun/coin/6Wav6EUXCskJsYqrVofTE6XAugVQXYyjCqRQb1Hupump" target="_blank" className="flex-1 md:flex-none px-6 py-4 bg-white border-2 border-slate-200 text-slate-900 text-sm font-bold tracking-wider uppercase hover:border-emerald-500 hover:text-emerald-600 transition-all flex items-center justify-center gap-2 group whitespace-nowrap">
+                        PumpFun
+                        <svg className="w-5 h-5 transition-all fill-current" viewBox="0 0 389 389" xmlns="http://www.w3.org/2000/svg">
+                            <g transform="translate(0,389) scale(0.1,-0.1)">
+                                <path d="M2539 3840 c-90 -8 -231 -51 -321 -96 -29 -14 -91 -51 -138 -82 -111 -73 -385 -347 -796 -797 -171 -187 -431 -470 -578 -630 -298 -322 -397 -446 -455 -568 -83 -175 -116 -339 -108 -551 5 -163 20 -238 76 -382 106 -275 358 -532 621 -633 266 -103 610 -91 866 28 200 94 310 199 990 948 164 181 380 416 479 523 244 263 360 393 413 465 60 80 137 243 162 341 27 104 41 316 29 447 -38 441 -364 837 -791 961 -96 28 -305 40 -449 26z m349 -175 c230 -55 435 -195 556 -380 111 -169 155 -309 163 -512 7 -156 -7 -263 -48 -388 -47 -142 -92 -206 -287 -413 -137 -146 -466 -500 -558 -601 -15 -17 -78 40 -568 514 -188 182 -435 421 -551 532 -115 110 -221 212 -234 227 l-24 25 99 108 c371 401 586 627 652 686 125 110 298 188 478 217 76 12 241 4 322 -15z m-1609 -1237 c36 -34 280 -267 541 -518 261 -250 492 -471 513 -489 20 -19 37 -37 37 -41 0 -8 -117 -136 -315 -345 -83 -88 -187 -198 -230 -245 -176 -187 -289 -266 -450 -312 -105 -30 -333 -32 -434 -5 -260 71 -486 246 -582 451 -71 153 -50 462 46 665 53 111 114 190 280 361 82 86 233 242 334 348 101 105 186 192 189 192 2 0 34 -28 71 -62z" />
+                            </g>
+                        </svg>
                     </a>
                 </div>
             </div>
