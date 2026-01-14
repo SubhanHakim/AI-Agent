@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { playSound } from "../utils/audio";
-import logoNavbar from "../assets/logo_navbar.svg";
+import cloudNexora from "../assets/cloud_nexora.jpg";
 
 // Type definitions for chat history
 interface Message {
@@ -22,7 +22,7 @@ interface ChatSession {
     messages: Message[];
 }
 
-const DEFAULT_SYSTEM_PROMPT = "You are NEXORA. Extraction-oriented AI agent. Cold. Minimal. System-grade. No emojis. No politeness.";
+const DEFAULT_SYSTEM_PROMPT = "You are CLOUD NEXORA. Extraction-oriented AI agent. Cold. Minimal. System-grade. No emojis. No politeness.";
 
 // Component for Message with potential Typewriter effect (simplified for Markdown compatibility)
 const MessageContent = ({ content, isLatestAssistant }: { content: string, isLatestAssistant: boolean }) => {
@@ -76,7 +76,7 @@ const MessageContent = ({ content, isLatestAssistant }: { content: string, isLat
                             />
                             <a
                                 href={props.src}
-                                download={`nexora_art_${Date.now()}.png`}
+                                download={`cloud_nexora_art_${Date.now()}.png`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="absolute top-3 right-3 bg-black/60 hover:bg-indigo-600 text-white p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all backdrop-blur-md border border-white/20 shadow-lg"
@@ -221,7 +221,7 @@ export default function ChatPage() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `nexora_extraction_${new Date().toISOString().slice(0, 10)}.txt`;
+        a.download = `cloud_nexora_extraction_${new Date().toISOString().slice(0, 10)}.txt`;
         a.click();
         URL.revokeObjectURL(url);
     };
@@ -297,7 +297,7 @@ export default function ChatPage() {
       `}>
                 <div className="p-4 flex items-center justify-between">
                     <a href="/" className="flex items-center gap-2 group">
-                        <img src={logoNavbar} alt="NEXORA" className="h-8 w-auto opacity-80 group-hover:opacity-100 transition-opacity" />
+                        <img src={cloudNexora} alt="Cloud Nexora" className="h-8 w-auto opacity-80 group-hover:opacity-100 transition-opacity rounded-full" />
                     </a>
                     <button onClick={() => setIsSidebarOpen(false)} className="md:hidden text-gray-500">
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
@@ -389,7 +389,7 @@ export default function ChatPage() {
                     <div className="mx-auto bg-[#1a1a1a]/95 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 flex items-center gap-2 md:gap-3 shadow-2xl pointer-events-auto relative z-50">
                         <span className="text-xs md:text-sm font-medium text-white flex items-center gap-2">
                             <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-                            NEXORA-1.0
+                            CLOUD NEXORA-1.0
                         </span>
                         <div className="h-3 w-px bg-white/10 hidden sm:block"></div>
                         <span className="text-[10px] text-orange-500 font-bold tracking-widest px-1 hidden sm:inline">GOD MODE</span>
