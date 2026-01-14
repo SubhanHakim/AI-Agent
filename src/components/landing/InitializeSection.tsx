@@ -20,7 +20,7 @@ export default function InitializeSection() {
                     </p>
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-4 pt-4">
-                        <a href="https://x.com/nexora_key" target="_blank" rel="noopener noreferrer" className="px-8 py-3.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold transition-all duration-300 flex items-center gap-2 w-full md:w-auto justify-center group shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                        <a href="https://x.com/i/communities/2011350891186774426" target="_blank" rel="noopener noreferrer" className="px-8 py-3.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold transition-all duration-300 flex items-center gap-2 w-full md:w-auto justify-center group shadow-lg hover:shadow-xl hover:-translate-y-0.5">
                             <svg className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
                             Follow Updates
                         </a>
